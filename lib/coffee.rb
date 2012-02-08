@@ -87,4 +87,23 @@ class Coffee < Hash
       'sms_logs' => log
     }
   end
+
+  def consume
+    while username_log = chat
+      result = parse(*username_log)
+      Mail.deliver do
+        from 'analyzer@hcid.kaist.ac.kr'
+        to result['username']
+        subject '대화 기록이 성공적으로 처리되었습니다.'
+        body <<-EOS
+대화 기록이 성공적으로 처리되었습니다.
+보내주신 대화기록 대신 간략히 분석된 결과만이 다음과 같이 남게됩니다.
+
+감사합니다.
+
+#{result.to_yaml}
+        EOS
+      end
+    end
+  end
 end

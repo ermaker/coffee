@@ -188,4 +188,15 @@ describe Coffee do
       subject.parse(*subject.chat)['sms_logs'].should have(num).items
     end
   end
+
+  it '#consume works' do
+    Mail::TestMailer.deliveries.clear
+    setup_mails('mails_for_an_user_a_person.yml')
+    subject.consume
+    Mail.all.should be_empty
+    Mail::TestMailer.deliveries.each_with_index do |mail,idx|
+      mail.from.should == [@mails[idx][:to]]
+      mail.to.should == [@mails[idx][:from]]
+    end
+  end
 end
