@@ -35,7 +35,7 @@ class Coffee
         {
           'length' => content.bytesize,
           'smstype' => sender == '회원님' ? 'outgoing' : 'incoming',
-          'body' => 'text',
+          'body' => content == '<사진>' ? 'image' : 'text',
           'phonenumber' => sender == '회원님' ? receiver : sender,
           'date' => date.strftime('%F %T'),
           'contact_id' => -1,

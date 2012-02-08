@@ -73,5 +73,31 @@ describe Coffee do
         ]
       }
     end
+
+    it 'handles with a people, two days and text/image' do
+      subject.parse(@mails[0][:attachments][0][:content]).should == {
+        "username"=>"kakaotest",
+        "sms_logs"=>[
+          {
+            "length"=>5,
+            "smstype"=>"outgoing",
+            "body"=>"text",
+            "phonenumber"=>"이민우",
+            "date"=>"2012-01-31 19:11:00",
+            "contact_id"=>-1,
+            "thread_id"=>-1
+          },
+          {
+            "length"=>8,
+            "smstype"=>"outgoing",
+            "body"=>"image",
+            "phonenumber"=>"이민우",
+            "date"=>"2012-02-01 12:56:00",
+            "contact_id"=>-1,
+            "thread_id"=>-1
+          }
+        ]
+      }
+    end
   end
 end
