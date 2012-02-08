@@ -1,9 +1,10 @@
 source :rubygems
 
 gem 'mail'#, :git => 'git://github.com/ermaker/mail.git'
+gem 'guard'
+gem 'guard-shell'
 
 group :test, :development do
-  gem 'guard'
   gem 'guard-bundler'
   gem 'guard-rspec'
   gem 'rspec', :require => 'spec'

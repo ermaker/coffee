@@ -11,6 +11,8 @@ GEM
       guard (>= 0.2.2)
     guard-rspec (0.6.0)
       guard (>= 0.10.0)
+    guard-shell (0.3.0)
+      guard (>= 0.2.0)
     i18n (0.6.0)
     mail (2.4.1)
       i18n (>= 0.4.0)
@@ -39,5 +41,6 @@ DEPENDENCIES
   guard
   guard-bundler
   guard-rspec
+  guard-shell
   mail
   rspec
