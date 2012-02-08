@@ -45,9 +45,9 @@ class Coffee < Hash
     old_get([username, receivers])
   end
 
-  def chat_log
+  def chat
     mail = Mail.first(delete_after_find: true)
-    mail.attachments.find {|a|a.filename == 'KakaoTalkChats.txt'}.decoded if mail.kind_of? Mail::Message
+    [mail.from.join(', '), mail.attachments.find {|a|a.filename == 'KakaoTalkChats.txt'}.decoded] if mail.kind_of? Mail::Message
   end
 
   def parse username, log
