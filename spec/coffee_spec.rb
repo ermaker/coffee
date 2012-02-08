@@ -45,6 +45,11 @@ describe Coffee do
           end.to change { Mail.all.size }.by(-1)
         end
       end
+
+      it 'returns nil with no mails' do
+        Mail.all.size.times { subject.chat_log }
+        subject.chat_log.should be_nil
+      end
     end
 
     context '#parse' do
