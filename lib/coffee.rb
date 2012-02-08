@@ -55,12 +55,15 @@ class Coffee < Hash
     if m2 = m[1].match(/\A(.*?) \(\d+명\)\z/)
       receivers = m2[1].split(', ') 
     end
-    #saved_date = m[2]
+    saved_date = m[2].to_time
     log = m.post_match
     log = log.split(/\n\n\d+년 \d+월 \d+일 (?:오전|오후) \d+:\d+(?=\n)/m).reject(&:empty?)
+    timestamp = Time.at(self[username, receivers]||0)
     log = log.map do |l|
       l.split(/\n(\d+년 \d+월 \d+일 (?:오전|오후) \d+:\d+)/).
-        reject(&:empty?).each_slice(2).map do |date, sender_content|
+        reject(&:empty?).each_slice(2).drop_while do |date, sender_content|
+        date.to_time < timestamp
+        end.map do |date, sender_content|
         date = date.to_time
         sender, content = sender_content.split(' : ', 2)
         content.chomp!
@@ -77,6 +80,7 @@ class Coffee < Hash
         }
         end
     end.flatten
+    self[username, receivers] = saved_date.to_i
     {
       'username' => username,
       'sms_logs' => log

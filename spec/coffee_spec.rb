@@ -176,4 +176,11 @@ describe Coffee do
     subject[username, receivers].should == Time.at(0)
     subject[username, other_receivers].should be_nil
   end
+
+  it '#parse handles the case with duplicate, an user and a person' do
+    setup_mails('mails_for_an_user_a_person.yml')
+    [3, 2, 5, 6].each do |num|
+      subject.parse('user1@email.com', subject.chat_log)['sms_logs'].should have(num).items
+    end
+  end
 end
