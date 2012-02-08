@@ -29,8 +29,10 @@ describe Coffee do
   end
 
   it 'deletes the read mail' do
-    expect do
-      subject.chat_log
-    end.to change { Mail.all.size }.by(-1)
+    2.times do |idx|
+      expect do
+        subject.chat_log.should == @mails[idx][:attachments][0][:content]
+      end.to change { Mail.all.size }.by(-1)
+    end
   end
 end
