@@ -1,0 +1,23 @@
+- :from        : user1@hcid.kaist.ac.kr
+  :to          : analyzer@hcid.kaist.ac.kr
+  :subject     : 이민우 님과 카카오톡 대화
+  :body        : ! '카카오톡 대화 내용을 "KakaoTalkChats.txt" 파일로 저장하여 이메일에 첨부하였습니다.
+
+  Samsung Mobile에서 전송했습니다'
+  :attachments :
+  - :filename  : KakaoTalkChats.txt
+    :content   : ! '이민우 님과 카카오톡 대화
+
+    저장한 날짜 : 2012년 2월 1일 오전 12:58
+
+
+
+    2012년 1월 31일 오후 7:11
+
+    2012년 1월 31일 오후 7:11회원님 :  test
+
+
+    2012년 2월 1일 오전 12:56
+
+    2012년 2월 1일 오전 12:56회원님 : <사진>
+    '

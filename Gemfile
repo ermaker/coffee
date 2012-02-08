@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'mail'
+gem 'mail'#, :git => 'git://github.com/ermaker/mail.git'
 
 group :test, :development do
   gem 'guard'
