@@ -30,6 +30,7 @@ class Coffee
         reject(&:empty?).each_slice(2).map do |date, sender_content|
         date = date.to_time
         sender, content = sender_content.split(' : ', 2)
+        content.chomp!
         {
           'length' => content.bytesize,
           'smstype' => sender.self? ? 'outgoing' : 'incoming',
