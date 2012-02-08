@@ -24,15 +24,17 @@ describe Coffee do
     end
   end
 
-  it 'gets a chat log' do
-    subject.chat_log.should == @mails[0][:attachments][0][:content]
-  end
+  context '#chat_log' do
+    it 'gets a chat log' do
+      subject.chat_log.should == @mails[0][:attachments][0][:content]
+    end
 
-  it 'deletes the read mail' do
-    2.times do |idx|
-      expect do
-        subject.chat_log.should == @mails[idx][:attachments][0][:content]
-      end.to change { Mail.all.size }.by(-1)
+    it 'deletes the read mail' do
+      2.times do |idx|
+        expect do
+          subject.chat_log.should == @mails[idx][:attachments][0][:content]
+        end.to change { Mail.all.size }.by(-1)
+      end
     end
   end
 end
