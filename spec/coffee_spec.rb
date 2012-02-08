@@ -99,5 +99,40 @@ describe Coffee do
         ]
       }
     end
+
+    it 'handles with two people, a day and only text' do
+      subject.parse(@mails[3][:attachments][0][:content]).should == {
+        "username"=>"kakaotest",
+        "sms_logs"=>[
+          {
+            "length"=>3,
+            "smstype"=>"outgoing",
+            "body"=>"text",
+            "phonenumber"=>"이민우, 강다혜",
+            "date"=>"2012-02-08 15:13:00",
+            "contact_id"=>-1,
+            "thread_id"=>-1
+          },
+          {
+            "length"=>3,
+            "smstype"=>"incoming",
+            "body"=>"text",
+            "phonenumber"=>"이민우, 강다혜",
+            "date"=>"2012-02-08 15:13:00",
+            "contact_id"=>-1,
+            "thread_id"=>-1
+          },
+          {
+            "length"=>3,
+            "smstype"=>"incoming",
+            "body"=>"text",
+            "phonenumber"=>"강다혜, 이민우",
+            "date"=>"2012-02-08 15:17:00",
+            "contact_id"=>-1,
+            "thread_id"=>-1
+          }
+        ]
+      }
+    end
   end
 end

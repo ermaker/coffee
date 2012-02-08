@@ -16,8 +16,11 @@ class Coffee
   end
 
   def parse log
-    m = log.match(/\A(.*?)님과 카카오톡 대화\n저장한 날짜 : (.*?)\n/m)
-    receiver = m[1].strip
+    m = log.match(/\A(.*?) 님과 카카오톡 대화\n저장한 날짜 : (.*?)\n/m)
+    receivers = [m[1]]
+    if m2 = m[1].match(/\A(.*?) \(\d+명\)\z/)
+      receivers = m2[1].split(', ') 
+    end
     #saved_date = m[2]
     log = m.post_match
     log = log.split(/\n\n\d+년 \d+월 \d+일 (?:오전|오후) \d+:\d+(?=\n)/m).reject(&:empty?)
@@ -36,7 +39,9 @@ class Coffee
           'length' => content.bytesize,
           'smstype' => sender == '회원님' ? 'outgoing' : 'incoming',
           'body' => content == '<사진>' ? 'image' : 'text',
-          'phonenumber' => sender == '회원님' ? receiver : sender,
+          'phonenumber' => sender == '회원님' ?
+          receivers.join(', ') :
+          (receivers - [sender]).unshift(sender).join(', '),
           'date' => date.strftime('%F %T'),
           'contact_id' => -1,
           'thread_id' => -1,

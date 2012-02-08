@@ -60,3 +60,24 @@
     2012년 2월 8일 오후 1:11이민우 : 마바사아
 
     2012년 2월 8일 오후 1:11회원님 : 카타파하'
+- :from        : user3@hcid.kaist.ac.kr
+  :to          : analyzer@hcid.kaist.ac.kr
+  :subject     : 이민우, 강다혜 (3명) 님과 카카오톡 대화
+  :body        : ! '카카오톡 대화 내용을 "KakaoTalkChats.txt" 파일로 저장하여 이메일에 첨부하였습니다.
+
+  Samsung Mobile에서 전송했습니다'
+  :attachments :
+  - :filename  : KakaoTalkChats.txt
+    :content   : ! '이민우, 강다혜 (3명) 님과 카카오톡 대화
+
+    저장한 날짜 : 2012년 2월 8일 오후 3:20
+
+
+
+    2012년 2월 8일 오후 3:13
+
+    2012년 2월 8일 오후 3:13회원님 : ㅋ
+
+    2012년 2월 8일 오후 3:13이민우 : ㅋ
+
+    2012년 2월 8일 오후 3:17강다혜 : ㅋ'
