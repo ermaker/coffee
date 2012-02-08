@@ -1,5 +1,3 @@
-# encoding: cp949
-
 require 'coffee'
 
 Mail.defaults do
