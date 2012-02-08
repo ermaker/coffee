@@ -15,7 +15,7 @@ class Coffee
     Mail.first(delete_after_find: true).attachments.find {|a|a.filename == 'KakaoTalkChats.txt'}.decoded
   end
 
-  def parse log
+  def parse username, log
     m = log.match(/\A(.*?) 님과 카카오톡 대화\n저장한 날짜 : (.*?)\n/m)
     receivers = [m[1]]
     if m2 = m[1].match(/\A(.*?) \(\d+명\)\z/)
@@ -49,7 +49,7 @@ class Coffee
         end
     end.flatten
     {
-      'username' => 'kakaotest',
+      'username' => username,
       'sms_logs' => log
     }
   end

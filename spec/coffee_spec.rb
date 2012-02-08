@@ -40,8 +40,9 @@ describe Coffee do
 
   context '#parse' do
     it 'handles with a person, a day and only text' do
-      subject.parse(@mails[2][:attachments][0][:content]).should == {
-        'username' => 'kakaotest',
+      subject.parse(
+        'user@email.com', @mails[2][:attachments][0][:content]).should == {
+        'username' => 'user@email.com',
         'sms_logs' => [
           {
             'length' => 12,
@@ -75,8 +76,9 @@ describe Coffee do
     end
 
     it 'handles with a person, two days and text/image' do
-      subject.parse(@mails[0][:attachments][0][:content]).should == {
-        "username"=>"kakaotest",
+      subject.parse(
+        'user@email.com', @mails[0][:attachments][0][:content]).should == {
+        "username"=>"user@email.com",
         "sms_logs"=>[
           {
             "length"=>5,
@@ -101,8 +103,9 @@ describe Coffee do
     end
 
     it 'handles with two people, a day and only text' do
-      subject.parse(@mails[3][:attachments][0][:content]).should == {
-        "username"=>"kakaotest",
+      subject.parse(
+        'user@email.com', @mails[3][:attachments][0][:content]).should == {
+        "username"=>"user@email.com",
         "sms_logs"=>[
           {
             "length"=>3,
@@ -130,6 +133,24 @@ describe Coffee do
             "date"=>"2012-02-08 15:17:00",
             "contact_id"=>-1,
             "thread_id"=>-1
+          }
+        ]
+      }
+    end
+
+    it 'handles the username' do
+      subject.parse(
+        'user2@email.com', @mails[4][:attachments][0][:content]).should == {
+        "username"=>"user2@email.com",
+        "sms_logs"=>[
+          {
+            'length' => 12,
+            'smstype' => 'incoming',
+            'body' => 'text',
+            'phonenumber' => '이민우',
+            'date' => '2012-02-08 13:11:00',
+            'contact_id' => -1,
+            'thread_id' => -1,
           }
         ]
       }
