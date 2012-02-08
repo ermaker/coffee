@@ -96,6 +96,7 @@ class Coffee < Hash
       Mail.deliver do
         from 'analyzer@hcid.kaist.ac.kr'
         to result['username']
+        self.charset = 'utf-8'
         subject '대화 기록이 성공적으로 처리되었습니다.'
         body <<-EOS
 대화 기록이 성공적으로 처리되었습니다.
