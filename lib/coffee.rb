@@ -51,6 +51,8 @@ class Coffee < Hash
   end
 
   def parse username, log
+    log = log[1..-1] if log.start_with?("\uFEFF")
+    log.delete!("\r")
     m = log.match(/\A(.*?) 님과 카카오톡 대화\n저장한 날짜 : (.*?)\n/m)
     receivers = [m[1]]
     if m2 = m[1].match(/\A(.*?) \(\d+명\)\z/)
