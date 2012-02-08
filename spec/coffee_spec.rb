@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'coffee'
 
 Mail.defaults do
@@ -33,6 +35,43 @@ describe Coffee do
           subject.chat_log.should == @mails[idx][:attachments][0][:content]
         end.to change { Mail.all.size }.by(-1)
       end
+    end
+  end
+
+  context '#parse' do
+    it 'handles with a people, a day and only text' do
+      subject.parse(@mails[2][:attachments][0][:content]).should == {
+        'username' => 'kakaotest',
+        'sms_logs' => [
+          {
+            'length' => 12,
+            'smstype' => 'incoming',
+            'body' => 'text',
+            'phonenumber' => '이민우',
+            'date' => '2012-02-08 13:11:00',
+            'contact_id' => -1,
+            'thread_id' => -1,
+          },
+          {
+            'length' => 12,
+            'smstype' => 'incoming',
+            'body' => 'text',
+            'phonenumber' => '이민우',
+            'date' => '2012-02-08 13:11:00',
+            'contact_id' => -1,
+            'thread_id' => -1,
+          },
+          {
+            'length' => 12,
+            'smstype' => 'outgoing',
+            'body' => 'text',
+            'phonenumber' => '이민우',
+            'date' => '2012-02-08 13:11:00',
+            'contact_id' => -1,
+            'thread_id' => -1,
+          },
+        ]
+      }
     end
   end
 end
