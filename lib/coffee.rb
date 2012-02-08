@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require 'cext/string'
 require 'yaml'
 require 'rubygems'
 require 'mail'
@@ -37,9 +38,9 @@ class Coffee
         sender, content = sender_content.split(' : ', 2)
         {
           'length' => content.bytesize,
-          'smstype' => sender == '회원님' ? 'outgoing' : 'incoming',
-          'body' => content == '<사진>' ? 'image' : 'text',
-          'phonenumber' => sender == '회원님' ?
+          'smstype' => sender.self? ? 'outgoing' : 'incoming',
+          'body' => content.image? ? 'image' : 'text',
+          'phonenumber' => sender.self? ?
           receivers.join(', ') :
           (receivers - [sender]).unshift(sender).join(', '),
           'date' => date.strftime('%F %T'),
