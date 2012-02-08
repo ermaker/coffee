@@ -5,11 +5,44 @@ require 'yaml'
 require 'rubygems'
 require 'mail'
 
-class Coffee
+class Coffee < Hash
   CONFIG_PATH = File.expand_path('../../config/config.yml', __FILE__)
   Mail.defaults do
     config = YAML::load(File.read(CONFIG_PATH))
     retriever_method :imap, config
+  end
+
+  def initialize(timestamp_path=nil)
+    super
+    @timestamp_path = timestamp_path || 'db/timestamp.yml'
+    reload
+  end
+
+  def reload
+    replace(YAML::load(File.read(@timestamp_path)))
+  rescue Errno::ENOENT
+    open(@timestamp_path, 'w') do |f|
+      f << {}.to_yaml
+    end
+    retry
+  end
+
+  def flush
+    open(@timestamp_path, 'w') do |f|
+      f << Hash[self].to_yaml
+    end
+  end
+
+  alias old_get []
+  alias old_set []=
+
+  def []= username, receivers, time
+    old_set([username, receivers], time)
+    flush
+  end
+
+  def [] username, receivers
+    old_get([username, receivers])
   end
 
   def chat_log

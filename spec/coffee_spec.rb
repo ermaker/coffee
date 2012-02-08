@@ -24,6 +24,10 @@ end
 describe Coffee do
   include Mail::Matchers
 
+  TIMESTAMP_PATH = File.expand_path('../../tmp/timestamp.yml', __FILE__)
+  subject { Coffee.new(TIMESTAMP_PATH) }
+  after { FileUtils.rm_f(TIMESTAMP_PATH) }
+
   context 'with mails.yml' do
     before do
       setup_mails('mails.yml')
@@ -161,5 +165,15 @@ describe Coffee do
         }
       end
     end
+  end
+
+  it 'sets and gets time' do
+    username = 'user@email.com'
+    receivers = ['이민우', '강다혜']
+    other_receivers = ['이민우']
+    subject[username, receivers].should be_nil
+    subject[username, receivers] = Time.at(0)
+    subject[username, receivers].should == Time.at(0)
+    subject[username, other_receivers].should be_nil
   end
 end
