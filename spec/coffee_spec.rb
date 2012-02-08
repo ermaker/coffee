@@ -39,7 +39,7 @@ describe Coffee do
   end
 
   context '#parse' do
-    it 'handles with a people, a day and only text' do
+    it 'handles with a person, a day and only text' do
       subject.parse(@mails[2][:attachments][0][:content]).should == {
         'username' => 'kakaotest',
         'sms_logs' => [
@@ -74,7 +74,7 @@ describe Coffee do
       }
     end
 
-    it 'handles with a people, two days and text/image' do
+    it 'handles with a person, two days and text/image' do
       subject.parse(@mails[0][:attachments][0][:content]).should == {
         "username"=>"kakaotest",
         "sms_logs"=>[
