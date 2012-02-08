@@ -28,13 +28,7 @@ class Coffee
     log = log.map do |l|
       l.split(/\n(\d+년 \d+월 \d+일 (?:오전|오후) \d+:\d+)/).
         reject(&:empty?).each_slice(2).map do |date, sender_content|
-        m = date.match(/(\d+)년 (\d+)월 (\d+)일 (오전|오후) (\d+):(\d+)/)
-        date = Time.new(
-          m[1].to_i,
-          m[2].to_i,
-          m[3].to_i,
-          m[5].to_i + (m[4] == '오전' ? 0 : 12),
-          m[6].to_i)
+        date = date.to_time
         sender, content = sender_content.split(' : ', 2)
         {
           'length' => content.bytesize,
