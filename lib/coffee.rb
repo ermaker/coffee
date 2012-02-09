@@ -70,19 +70,21 @@ class Coffee < Hash
         end.map do |date, sender_content|
         date = date.to_time
         sender, content = sender_content.split(' : ', 2)
-        content.chomp!
-        {
-          'length' => content.bytesize,
-          'smstype' => sender.self? ? 'outgoing' : 'incoming',
-          'body' => content.image? ? 'image' : 'text',
-          'phonenumber' => sender.self? ?
-          receivers.join(', ') :
-          (receivers - [sender]).unshift(sender).join(', '),
-          'date' => date.strftime('%F %T'),
-          'contact_id' => -1,
-          'thread_id' => -1,
-        }
+        if content
+          content.chomp!
+          {
+            'length' => content.bytesize,
+            'smstype' => sender.self? ? 'outgoing' : 'incoming',
+            'body' => content.image? ? 'image' : 'text',
+            'phonenumber' => sender.self? ?
+            receivers.join(', ') :
+            (receivers - [sender]).unshift(sender).join(', '),
+            'date' => date.strftime('%F %T'),
+            'contact_id' => -1,
+            'thread_id' => -1,
+          }
         end
+        end.compact
     end.flatten
     self[username, receivers] = saved_date.to_i
     {

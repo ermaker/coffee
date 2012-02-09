@@ -199,4 +199,13 @@ describe Coffee do
       mail.to.should == [@mails[idx][:from]]
     end
   end
+
+  context '#parse' do
+    ['case1.txt'].each do |fn|
+      it "works with #{fn}" do
+        log = File.read( File.expand_path("../fixtures/#{fn}", __FILE__))
+        subject.parse('user@email.com', log)
+      end
+    end
+  end
 end
