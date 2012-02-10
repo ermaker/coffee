@@ -201,10 +201,9 @@ describe Coffee do
   end
 
   context '#parse' do
-    ['case1.txt', 'case2.txt'].each do |fn|
+    ['case1.txt', 'case2.txt', 'case3.txt'].each do |fn|
       it "works with #{fn}" do
         log = File.read( File.expand_path("../fixtures/#{fn}", __FILE__))
-        subject.parse('user@email.com', log)
       end
     end
   end
