@@ -16,6 +16,8 @@ describe String do
 
   it '#to_time works' do
     '2012년 2월 8일 오후 1:11'.to_time.strftime("%F %T").should == '2012-02-08 13:11:00'
-    '1970년 1월 1일 오전 0:0'.to_time == Time.at(0)
+    '1970년 1월 1일 오전 12:0'.to_time == Time.at(0)
+    '1970년 1월 1일 오전 12:1'.to_time == Time.at(60)
+    '2012년 1월 10일 오후 12:15'.to_time.strftime("%F %T").should == '2012-01-10 12:15:00'
   end
 end

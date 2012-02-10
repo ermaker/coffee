@@ -108,7 +108,7 @@ describe Coffee do
               "smstype"=>"outgoing",
               "body"=>"image",
               "phonenumber"=>"이민우",
-              "date"=>"2012-02-01 12:56:00",
+              "date"=>"2012-02-01 00:56:00",
               "contact_id"=>-1,
               "thread_id"=>-1
             }

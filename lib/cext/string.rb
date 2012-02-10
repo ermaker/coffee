@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'active_support/core_ext'
 
 class String
   def self?
@@ -11,11 +12,6 @@ class String
 
   def to_time
     m = self.match(/(\d+)년 (\d+)월 (\d+)일 (오전|오후) (\d+):(\d+)/)
-    return Time.new(
-      m[1].to_i,
-      m[2].to_i,
-      m[3].to_i,
-      m[5].to_i + (m[4] == '오전' ? 0 : 12),
-      m[6].to_i)
+    return Time.parse("#{m[1]}-#{m[2]}-#{m[3]} #{m[5]}:#{m[6]}:00 #{m[4] == '오전' ? 'am' : 'pm'}")
   end
 end
