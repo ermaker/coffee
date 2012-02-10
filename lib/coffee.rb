@@ -64,7 +64,7 @@ class Coffee < Hash
     log = log.split(/\n\n\d+년 \d+월 \d+일 (?:오전|오후) \d+:\d+(?=\n)/m).reject(&:empty?)
     timestamp = Time.at(self[username, receivers]||0)
     log = log.map do |l|
-      l.split(/\n(\d+년 \d+월 \d+일 (?:오전|오후) \d+:\d+)/).
+      l.split(/\n(\d+년 \d+월 \d+일 (?:오전|오후) \d+:\d{1,2})/).
         reject(&:empty?).each_slice(2).drop_while do |date, sender_content|
         date.to_time < timestamp
         end.map do |date, sender_content|
