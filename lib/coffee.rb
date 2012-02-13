@@ -58,7 +58,8 @@ class Coffee < Hash
     } if mail.kind_of? Mail::Message
   end
 
-  def parse username, log
+  def parse info
+    username, log = info[:from], info[:chat]
     log.force_encoding('utf-8')
     log = log[1..-1] if log.start_with?("\uFEFF")
     log.delete!("\r")
@@ -103,7 +104,7 @@ class Coffee < Hash
 
   def consume
     while info = chat
-      result = parse(info[:from], info[:chat])
+      result = parse(info)
       Mail.deliver do
         from 'analyzer@hcid.kaist.ac.kr'
         to result['username']

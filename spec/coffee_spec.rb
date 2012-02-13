@@ -60,7 +60,8 @@ describe Coffee do
     context '#parse' do
       it 'handles with a person, a day and only text' do
         subject.parse(
-          'user@email.com', @mails[2][:attachments][0][:content]).should == {
+          :from => 'user@email.com',
+          :chat => @mails[2][:attachments][0][:content]).should == {
           'username' => 'user@email.com',
           'sms_logs' => [
             {
@@ -96,7 +97,8 @@ describe Coffee do
 
       it 'handles with a person, two days and text/image' do
         subject.parse(
-          'user@email.com', @mails[0][:attachments][0][:content]).should == {
+          :from => 'user@email.com',
+          :chat => @mails[0][:attachments][0][:content]).should == {
           "username"=>"user@email.com",
           "sms_logs"=>[
             {
@@ -123,7 +125,8 @@ describe Coffee do
 
       it 'handles with two people, a day and only text' do
         subject.parse(
-          'user@email.com', @mails[3][:attachments][0][:content]).should == {
+          :from => 'user@email.com',
+          :chat => @mails[3][:attachments][0][:content]).should == {
           "username"=>"user@email.com",
           "sms_logs"=>[
             {
@@ -159,7 +162,8 @@ describe Coffee do
 
       it 'handles the username' do
         subject.parse(
-          'user2@email.com', @mails[4][:attachments][0][:content]).should == {
+          :from => 'user2@email.com',
+          :chat => @mails[4][:attachments][0][:content]).should == {
           "username"=>"user2@email.com",
           "sms_logs"=>[
             {
@@ -190,8 +194,7 @@ describe Coffee do
   it '#parse handles the case with duplicate, an user and a person' do
     setup_mails('mails_for_an_user_a_person.yml')
     [3, 2, 5, 6].each do |num|
-      info = subject.chat
-      subject.parse(info[:from], info[:chat])['sms_logs'].should have(num).items
+      subject.parse(subject.chat)['sms_logs'].should have(num).items
     end
   end
 
@@ -209,7 +212,8 @@ describe Coffee do
   context '#parse' do
     ['case1.txt', 'case2.txt', 'case3.txt'].each do |fn|
       it "works with #{fn}" do
-        log = File.read( File.expand_path("../fixtures/#{fn}", __FILE__))
+        log = File.read(File.expand_path("../fixtures/#{fn}", __FILE__))
+        subject.parse(:from => 'user@email.com', :chat => log)
       end
     end
   end
