@@ -12,9 +12,11 @@ class Coffee < Hash
     retriever_method :imap, config
   end
 
-  def initialize(timestamp_path=nil)
-    super
+  def initialize(timestamp_path=nil, username_path=nil)
+    super()
     @timestamp_path = timestamp_path || 'db/timestamp.yml'
+    @username_path = username_path || 'db/username.yml'
+    @username = YAML::load(File.read(@username_path))
     reload
   end
 
@@ -111,5 +113,9 @@ class Coffee < Hash
         EOS
       end
     end
+  end
+
+  def username email
+    @username.fetch(email,email)
   end
 end

@@ -25,7 +25,8 @@ describe Coffee do
   include Mail::Matchers
 
   TIMESTAMP_PATH = File.expand_path('../../tmp/timestamp.yml', __FILE__)
-  subject { Coffee.new(TIMESTAMP_PATH) }
+  USERNAME_PATH = File.expand_path('../fixtures/username.yml', __FILE__)
+  subject { Coffee.new(TIMESTAMP_PATH, USERNAME_PATH) }
   after { FileUtils.rm_f(TIMESTAMP_PATH) }
 
   context 'with mails.yml' do
@@ -204,6 +205,21 @@ describe Coffee do
     ['case1.txt', 'case2.txt', 'case3.txt'].each do |fn|
       it "works with #{fn}" do
         log = File.read( File.expand_path("../fixtures/#{fn}", __FILE__))
+      end
+    end
+  end
+
+  context '#username' do
+    [
+      ['user@email.com', '유저'],
+      ['user1@email.com', '유저1'],
+      ['user2@email.com', '유저2'],
+      ['a@email.com', 'a@email.com'],
+      ['user3@email.com', 'user3@email.com'],
+      ['user@mail.com', 'user@mail.com'],
+    ].each do |email, username|
+      it "returns #{username} with the email address #{email}" do
+        subject.username(email).should == username
       end
     end
   end
