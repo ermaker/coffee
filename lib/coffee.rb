@@ -106,6 +106,17 @@ class Coffee < Hash
   def consume
     while info = chat
       result = parse(info)
+      pretty_result = "사용자 이름: #{result['username']}\n" +
+        result['sms_logs'].map.with_index do |log,idx|
+          <<-EOS
+#{idx+1}번째 메세지:
+    - 시각: #{log['date']}
+    - 대화 참여자: #{log['phonenumber']}
+    - 문자 종류: #{log['smstype'] == 'outgoing' ? '발신' : '수신'}
+    - 문자 내용: #{log['body'] == 'image' ? '사진' : '문자'}
+    - 메세지 길이: #{log['length']}
+          EOS
+        end.join
       Mail.deliver do
         from 'analyzer@hcid.kaist.ac.kr'
         to info[:from]
@@ -117,7 +128,7 @@ class Coffee < Hash
 
 감사합니다.
 
-#{result.to_yaml}
+#{pretty_result}
         EOS
       end
     end
