@@ -36,13 +36,17 @@ describe Coffee do
 
     context '#chat' do
       it 'gets a chat' do
-        subject.chat.should == [@mails[0][:from], @mails[0][:attachments][0][:content]]
+        info = subject.chat
+        info[:from].should == @mails[0][:from]
+        info[:chat].should == @mails[0][:attachments][0][:content]
       end
 
       it 'deletes the read mail' do
         2.times do |idx|
           expect do
-            subject.chat.should == [@mails[idx][:from], @mails[idx][:attachments][0][:content]]
+            info = subject.chat
+            info[:from].should == @mails[idx][:from]
+            info[:chat].should == @mails[idx][:attachments][0][:content]
           end.to change { Mail.all.size }.by(-1)
         end
       end
@@ -186,7 +190,8 @@ describe Coffee do
   it '#parse handles the case with duplicate, an user and a person' do
     setup_mails('mails_for_an_user_a_person.yml')
     [3, 2, 5, 6].each do |num|
-      subject.parse(*subject.chat)['sms_logs'].should have(num).items
+      info = subject.chat
+      subject.parse(info[:from], info[:chat])['sms_logs'].should have(num).items
     end
   end
 

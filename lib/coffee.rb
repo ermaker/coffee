@@ -49,7 +49,13 @@ class Coffee < Hash
 
   def chat
     mail = Mail.first(delete_after_find: true)
-    [mail.from.join(', '), mail.attachments.find {|a|a.filename == 'KakaoTalkChats.txt'}.decoded] if mail.kind_of? Mail::Message
+    return {
+      :mail => mail,
+      :from => mail.from.join(', '),
+      :chat => mail.attachments.find do |a|
+        a.filename == 'KakaoTalkChats.txt'
+      end.decoded
+    } if mail.kind_of? Mail::Message
   end
 
   def parse username, log
@@ -96,8 +102,8 @@ class Coffee < Hash
   end
 
   def consume
-    while username_log = chat
-      result = parse(*username_log)
+    while info = chat
+      result = parse(info[:from], info[:chat])
       Mail.deliver do
         from 'analyzer@hcid.kaist.ac.kr'
         to result['username']
