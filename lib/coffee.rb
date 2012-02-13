@@ -60,6 +60,7 @@ class Coffee < Hash
 
   def parse info
     username, log = info[:from], info[:chat]
+    username = self.username(username)
     log.force_encoding('utf-8')
     log = log[1..-1] if log.start_with?("\uFEFF")
     log.delete!("\r")
@@ -107,7 +108,7 @@ class Coffee < Hash
       result = parse(info)
       Mail.deliver do
         from 'analyzer@hcid.kaist.ac.kr'
-        to result['username']
+        to info[:from]
         self.charset = 'utf-8'
         subject '대화 기록이 성공적으로 처리되었습니다.'
         body <<-EOS

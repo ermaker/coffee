@@ -62,7 +62,7 @@ describe Coffee do
         subject.parse(
           :from => 'user@email.com',
           :chat => @mails[2][:attachments][0][:content]).should == {
-          'username' => 'user@email.com',
+          'username' => '유저',
           'sms_logs' => [
             {
               'length' => 12,
@@ -99,7 +99,7 @@ describe Coffee do
         subject.parse(
           :from => 'user@email.com',
           :chat => @mails[0][:attachments][0][:content]).should == {
-          "username"=>"user@email.com",
+          "username"=>"유저",
           "sms_logs"=>[
             {
               "length"=>5,
@@ -127,7 +127,7 @@ describe Coffee do
         subject.parse(
           :from => 'user@email.com',
           :chat => @mails[3][:attachments][0][:content]).should == {
-          "username"=>"user@email.com",
+          "username"=>"유저",
           "sms_logs"=>[
             {
               "length"=>3,
@@ -164,7 +164,7 @@ describe Coffee do
         subject.parse(
           :from => 'user2@email.com',
           :chat => @mails[4][:attachments][0][:content]).should == {
-          "username"=>"user2@email.com",
+          "username"=>"유저2",
           "sms_logs"=>[
             {
               'length' => 12,
