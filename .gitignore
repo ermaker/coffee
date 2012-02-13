@@ -1,3 +1,4 @@
 /config/config.yml
+/config/mail_template.yml
 /db/timestamp.yml
 /db/username.yml

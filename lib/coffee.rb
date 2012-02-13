@@ -16,7 +16,9 @@ class Coffee < Hash
     super()
     @timestamp_path = timestamp_path || 'db/timestamp.yml'
     @username_path = username_path || 'db/username.yml'
+    @mail_template_path = 'config/mail_template.yml'
     @username = YAML::load(File.read(@username_path))
+    @mail_template = YAML::load(File.read(@mail_template_path))
     reload
   end
 
@@ -117,19 +119,13 @@ class Coffee < Hash
     - 메세지 길이: #{log['length']}
           EOS
         end.join
+      mail_template = @mail_template
       Mail.deliver do
         from 'analyzer@hcid.kaist.ac.kr'
         to info[:from]
         self.charset = 'utf-8'
-        subject '대화 기록이 성공적으로 처리되었습니다.'
-        body <<-EOS
-대화 기록이 성공적으로 처리되었습니다.
-보내주신 대화기록 대신 간략히 분석된 결과만이 다음과 같이 남게됩니다.
-
-감사합니다.
-
-#{pretty_result}
-        EOS
+        subject mail_template[:subject]
+        body mail_template[:body] + pretty_result
       end
     end
   end
