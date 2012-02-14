@@ -2,6 +2,7 @@
 
 require 'cext/string'
 require 'yaml'
+require 'csv'
 require 'rubygems'
 require 'mail'
 
@@ -160,9 +161,16 @@ class Coffee < Hash
     raise
   end
 
+  ATTR = ['date', 'phonenumber', 'smstype', 'body', 'length']
   def consume
     while info = chat
       result = parse(info)
+      CSV::open("db/#{result['username']}.csv", 'a') do |csv|
+        result['sms_logs'].map{|log|ATTR.map{|attr|log[attr]}}.each do |log|
+          csv << log
+        end
+      end
+
       pretty_result = "사용자 이름: #{result['username']}\n" +
         result['sms_logs'].map.with_index do |log,idx|
           <<-EOS

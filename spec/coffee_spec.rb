@@ -26,6 +26,7 @@ describe Coffee do
 
   TIMESTAMP_PATH = File.expand_path('../../tmp/timestamp.yml', __FILE__)
   USERNAME_PATH = File.expand_path('../fixtures/username.yml', __FILE__)
+  before { CSV.stub!(:open) }
   subject { Coffee.new(TIMESTAMP_PATH, USERNAME_PATH) }
   after { FileUtils.rm_f(TIMESTAMP_PATH) }
 
