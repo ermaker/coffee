@@ -91,6 +91,7 @@ class Coffee < Hash
     log = log[1..-1] if log.start_with?("\uFEFF")
     log.delete!("\r")
     m = log.match(/\A(.*?) 님과 카카오톡 대화\n저장한 날짜 : (.*?)\n/m)
+    raise 'Invalid Attachments' unless m
     receivers = [m[1]]
     if m2 = m[1].match(/\A(.*?) \(\d+명\)\z/)
       receivers = m2[1].split(', ') 
@@ -127,6 +128,36 @@ class Coffee < Hash
       'username' => username,
       'sms_logs' => log
     }
+  rescue Exception => e
+    Mail.deliver do
+      from info[:mail].to
+      to info[:mail].from
+      self.charset = 'utf-8'
+      subject '[VodKA] [kakao tool] 대화 내역 처리 실패 알림'
+      body <<-EOS
+대화 내역 처리가 실패하였습니다.
+관리자가 이 내용을 처리할 예정입니다.
+      EOS
+    end if info[:mail]
+    Mail.deliver do
+      from info[:mail].to
+      to 'ermaker@gmail.com'
+      self.charset = 'utf-8'
+      subject '[VodKA] [kakao tool] 대화 내역 처리 실패 알림'
+      body <<-EOS
+대화 내역 처리 실패
+에러메세지:
+#{e}
+#{e.backtrace}
+
+발신: #{info[:mail].from}
+수신: #{info[:mail].to}
+제목: #{info[:mail].subject}
+내용:
+#{info[:mail].body}
+      EOS
+    end if info[:mail]
+    raise
   end
 
   def consume

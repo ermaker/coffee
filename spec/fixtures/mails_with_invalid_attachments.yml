@@ -1,0 +1,38 @@
+- :from        : user@email.com
+  :to          : analyzer@hcid.kaist.ac.kr
+  :subject     : 이민우 님과 카카오톡 대화
+  :body        : ! '카카오톡 대화 내용을 "KakaoTalkChats.txt" 파일로 저장하여 이메일에 첨부하였습니다.
+
+  Samsung Mobile에서 전송했습니다'
+  :attachments :
+  - :filename  : KakaoTalkChats.txt
+    :content   : |
+      No header
+- :from        : user@email.com
+  :to          : analyzer@hcid.kaist.ac.kr
+  :subject     : 이민우 님과 카카오톡 대화
+  :body        : ! '카카오톡 대화 내용을 "KakaoTalkChats.txt" 파일로 저장하여 이메일에 첨부하였습니다.
+
+  Samsung Mobile에서 전송했습니다'
+  :attachments :
+  - :filename  : KakaoTalkChats.txt
+    :content   : |
+      이민우 님과 카카오톡 대화
+      No saving date
+- :from        : user@email.com
+  :to          : analyzer@hcid.kaist.ac.kr
+  :subject     : 이민우 님과 카카오톡 대화
+  :body        : ! '카카오톡 대화 내용을 "KakaoTalkChats.txt" 파일로 저장하여 이메일에 첨부하였습니다.
+
+  Samsung Mobile에서 전송했습니다'
+  :attachments :
+  - :filename  : KakaoTalkChats.txt
+    :content   : |
+      이민우 님과 카카오톡 대화
+      저장한 날짜 : 2012-02-08 04:19pm
+
+
+      2012-02-08 04:18pm
+      2012-02-08 04:18pmyou : 가
+      2012-02-08 04:18pmyou : 나
+      2012-02-08 04:18pmyou : 다

@@ -245,4 +245,18 @@ describe Coffee do
       ]
   end
 
+  it 'send two mails and raises an exception with an mail with an invalid attachment' do
+    setup_mails('mails_with_invalid_attachments.yml')
+    Mail.all.size.times do |idx|
+      Mail::TestMailer.deliveries.clear
+      expect do
+        expect { subject.consume }.to raise_error
+      end.to change { Mail.all.size }.by(-1)
+      Mail::TestMailer.deliveries.should have(2).items
+      Mail::TestMailer.deliveries.map{|m|[m.from, m.to]}.should =~ [
+          [[@mails[idx][:to]], [@mails[idx][:from]]],
+          [[@mails[idx][:to]], ['ermaker@gmail.com']],
+        ]
+    end
+  end
 end
