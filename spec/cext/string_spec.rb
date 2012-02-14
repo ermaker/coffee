@@ -19,5 +19,8 @@ describe String do
     '1970년 1월 1일 오전 12:0'.to_time == Time.at(0)
     '1970년 1월 1일 오전 12:1'.to_time == Time.at(60)
     '2012년 1월 10일 오후 12:15'.to_time.strftime("%F %T").should == '2012-01-10 12:15:00'
+    expect { ''.to_time }.to raise_error('Invalid Time Format')
+    expect { '2012-01-10 12:15pm'.to_time }.
+      to raise_error('Invalid Time Format')
   end
 end
