@@ -100,7 +100,9 @@ class Coffee < Hash
     m = log.match(/\A(.*?) 님과 카카오톡 대화\n저장한 날짜 : (.*?)\n/m)
     raise 'Invalid Attachments' unless m
     receivers = [m[1]]
+    is_group_chat = false
     if m2 = m[1].match(/\A(.*?) \(\d+명\)\z/)
+      is_group_chat = true
       receivers = m2[1].split(', ') 
     end
     saved_date = m[2].to_time
@@ -110,7 +112,7 @@ class Coffee < Hash
     log = log.map do |l|
       l.split(/\n(\d+년 \d+월 \d+일 (?:오전|오후) \d+:\d{1,2})/).
         reject(&:empty?).each_slice(2).drop_while do |date, sender_content|
-        date.to_time < timestamp
+        !is_group_chat && date.to_time < timestamp
         end.map do |date, sender_content|
         date = date.to_time
         sender, content = sender_content.split(' : ', 2)
