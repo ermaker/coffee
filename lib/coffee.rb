@@ -51,13 +51,37 @@ class Coffee < Hash
 
   def chat
     mail = Mail.first(delete_after_find: true)
+    return unless mail.kind_of? Mail::Message
+    raw_attachment = mail.attachments.find do |a|
+      a.filename == 'KakaoTalkChats.txt'
+    end
+    raise 'No Attachments' unless raw_attachment
+    chat = raw_attachment.decoded
     return {
       :mail => mail,
       :from => mail.from.join(', '),
-      :chat => mail.attachments.find do |a|
-        a.filename == 'KakaoTalkChats.txt'
-      end.decoded
+      :chat => chat
     } if mail.kind_of? Mail::Message
+  rescue Exception => e
+    Mail.deliver do
+      from mail.to
+      to 'ermaker@gmail.com'
+      self.charset = 'utf-8'
+      subject '[VodKA] [kakao tool] 메일 읽기 실패 알림'
+      body <<-EOS
+메일 읽기 실패
+에러메세지:
+#{e}
+#{e.backtrace}
+
+발신: #{mail.from}
+수신: #{mail.to}
+제목: #{mail.subject}
+내용:
+#{mail.body}
+      EOS
+    end if mail
+    raise
   end
 
   def parse info

@@ -232,4 +232,17 @@ describe Coffee do
       end
     end
   end
+
+  it 'sends a mail and raises an exception with an email without attachments' do
+    Mail::TestMailer.deliveries.clear
+    setup_mails('mails_without_attachments.yml')
+    expect do
+      expect { subject.consume }.to raise_error('No Attachments')
+    end.to change { Mail.all.size }.by(-1)
+    Mail::TestMailer.deliveries.should have(1).items
+    Mail::TestMailer.deliveries.map{|m|[m.from, m.to]}.should =~ [
+        [[@mails[0][:to]], ['ermaker@gmail.com']],
+      ]
+  end
+
 end
