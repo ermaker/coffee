@@ -26,7 +26,14 @@ describe Coffee do
 
   TIMESTAMP_PATH = File.expand_path('../../tmp/timestamp.yml', __FILE__)
   USERNAME_PATH = File.expand_path('../fixtures/username.yml', __FILE__)
-  before { CSV.stub!(:open) }
+  before do
+    CSV.stub!(:open)
+    Mechanize.stub!(:new) do
+      obj = Object.new
+      obj.stub!(:post)
+      obj
+    end
+  end
   subject { Coffee.new(TIMESTAMP_PATH, USERNAME_PATH) }
   after { FileUtils.rm_f(TIMESTAMP_PATH) }
 
@@ -259,5 +266,41 @@ describe Coffee do
           [[@mails[idx][:to]], ['ermaker@gmail.com']],
         ]
     end
+  end
+
+  it '#put works' do
+    log = {
+      'username' => '유저',
+      'sms_logs' => [
+        {
+          'length' => 12,
+          'smstype' => 'incoming',
+          'body' => 'text',
+          'phonenumber' => '이민우',
+          'date' => '2012-02-08 13:11:00',
+          'contact_id' => -1,
+          'thread_id' => -1,
+        },
+        {
+          'length' => 12,
+          'smstype' => 'incoming',
+          'body' => 'text',
+          'phonenumber' => '이민우',
+          'date' => '2012-02-08 13:11:00',
+          'contact_id' => -1,
+          'thread_id' => -1,
+        },
+        {
+          'length' => 12,
+          'smstype' => 'outgoing',
+          'body' => 'text',
+          'phonenumber' => '이민우',
+          'date' => '2012-02-08 13:11:00',
+          'contact_id' => -1,
+          'thread_id' => -1,
+        },
+      ]
+    }
+    expect { subject.put(log) }.to_not raise_error
   end
 end

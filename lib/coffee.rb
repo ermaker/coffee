@@ -3,8 +3,14 @@
 require 'cext/string'
 require 'yaml'
 require 'csv'
+require 'openssl'
 require 'rubygems'
 require 'mail'
+require 'mechanize'
+require 'json'
+
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+I_KNOW_THAT_OPENSSL_VERIFY_PEER_EQUALS_VERIFY_NONE_IS_WRONG = nil
 
 class Coffee < Hash
   CONFIG_PATH = File.expand_path('../../config/config.yml', __FILE__)
@@ -165,11 +171,14 @@ class Coffee < Hash
   def consume
     while info = chat
       result = parse(info)
+
       CSV::open("db/#{result['username']}.csv", 'a') do |csv|
         result['sms_logs'].map{|log|ATTR.map{|attr|log[attr]}}.each do |log|
           csv << log
         end
       end
+
+      put(result)
 
       pretty_result = "사용자 이름: #{result['username']}\n" +
         result['sms_logs'].map.with_index do |log,idx|
@@ -195,5 +204,10 @@ class Coffee < Hash
 
   def username email
     @username.fetch(email,email)
+  end
+
+  def put log
+    a = Mechanize.new
+    a.post('https://virtual-possessions-staging.herokuapp.com/sms_logs', log.to_json, 'Content-type' => 'application/json')
   end
 end

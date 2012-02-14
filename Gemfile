@@ -4,6 +4,8 @@ gem 'mail'#, :git => 'git://github.com/ermaker/mail.git'
 gem 'guard'
 gem 'guard-shell'
 gem 'activesupport'
+gem 'mechanize'
+gem 'json'
 
 group :test, :development do
   gem 'guard-bundler'
