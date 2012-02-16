@@ -85,7 +85,7 @@ class Coffee < Hash
 수신: #{mail.to}
 제목: #{mail.subject}
 내용:
-#{mail.body}
+#{mail.text_part.decoded}
       EOS
     end if mail
     raise
@@ -163,7 +163,7 @@ class Coffee < Hash
 수신: #{info[:mail].to}
 제목: #{info[:mail].subject}
 내용:
-#{info[:mail].body}
+#{info[:mail].text_part.decoded}
       EOS
     end if info[:mail]
     raise
@@ -213,7 +213,7 @@ class Coffee < Hash
 수신: #{info[:mail].to}
 제목: #{info[:mail].subject}
 내용:
-#{info[:mail].body}
+#{info[:mail].text_part.decoded}
       EOS
       end
     end
