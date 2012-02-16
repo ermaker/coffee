@@ -174,7 +174,7 @@ class Coffee < Hash
     while info = chat
       result = parse(info)
 
-      CSV::open("db/#{result['username']}.csv", 'a') do |csv|
+      CSV::open("db/#{result['username']}.csv", 'a:cp949') do |csv|
         result['sms_logs'].map{|log|ATTR.map{|attr|log[attr]}}.each do |log|
           csv << log
         end
