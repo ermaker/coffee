@@ -252,7 +252,7 @@ describe Coffee do
     end.to change { Mail.all.size }.by(-1)
     Mail::TestMailer.deliveries.should have(1).items
     Mail::TestMailer.deliveries.map{|m|[m.from, m.to]}.should =~ [
-        [[@mails[0][:to]], ['ermaker@gmail.com']],
+        [[@mails[0][:to]], ['vodkaist12@gmail.com']],
       ]
   end
 
@@ -266,7 +266,7 @@ describe Coffee do
       Mail::TestMailer.deliveries.should have(2).items
       Mail::TestMailer.deliveries.map{|m|[m.from, m.to]}.should =~ [
           [[@mails[idx][:to]], [@mails[idx][:from]]],
-          [[@mails[idx][:to]], ['ermaker@gmail.com']],
+          [[@mails[idx][:to]], ['vodkaist12@gmail.com']],
         ]
     end
   end

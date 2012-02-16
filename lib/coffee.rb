@@ -72,7 +72,7 @@ class Coffee < Hash
   rescue Exception => e
     Mail.deliver do
       from mail.to
-      to 'ermaker@gmail.com'
+      to 'vodkaist12@gmail.com'
       self.charset = 'utf-8'
       subject '[VodKA] [kakao tool] 메일 읽기 실패 알림'
       body <<-EOS
@@ -150,7 +150,7 @@ class Coffee < Hash
     end if info[:mail]
     Mail.deliver do
       from info[:mail].to
-      to 'ermaker@gmail.com'
+      to 'vodkaist12@gmail.com'
       self.charset = 'utf-8'
       subject '[VodKA] [kakao tool] 대화 내역 처리 실패 알림'
       body <<-EOS
