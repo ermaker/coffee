@@ -201,6 +201,21 @@ class Coffee < Hash
         subject mail_template[:subject]
         body mail_template[:body] + pretty_result
       end
+
+      Mail.deliver do
+        from 'analyzer@hcid.kaist.ac.kr'
+        to 'vodkaist12@gmail.com'
+        self.charset = 'utf-8'
+        subject '[VodKA] [kakao tool] 대화 내역 처리 성공'
+        body <<-EOS
+대화 내역 처리 성공
+발신: #{info[:mail].from}
+수신: #{info[:mail].to}
+제목: #{info[:mail].subject}
+내용:
+#{info[:mail].body}
+      EOS
+      end
     end
   end
 

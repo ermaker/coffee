@@ -211,9 +211,12 @@ describe Coffee do
     setup_mails('mails_for_an_user_a_person.yml')
     subject.consume
     Mail.all.should be_empty
-    Mail::TestMailer.deliveries.each_with_index do |mail,idx|
-      mail.from.should == [@mails[idx][:to]]
-      mail.to.should == [@mails[idx][:from]]
+    Mail::TestMailer.deliveries.should have(@mails.size*2).items
+    Mail::TestMailer.deliveries.each_slice(2).each_with_index do |mails,idx|
+      mails.map{|m|[m.from,m.to]}.should =~ [
+        [[@mails[idx][:to]], [@mails[idx][:from]]],
+        [[@mails[idx][:to]], ['vodkaist12@gmail.com']],
+      ]
     end
   end
 
